@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LensaKita Rental</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="container nav-inner">
+        <div class="brand-wrap">
+          <div class="brand-mark">L</div>
+          <span>LensaKita Rental</span>
+        </div>
+        <div class="nav-links">
+          <a href="#dashboard">Dashboard</a>
+          <a href="#kamera">Kamera</a>
+          <a href="#pelanggan">Pelanggan</a>
+          <a href="#transaksi">Transaksi</a>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container main-shell">
+      <header class="page-header" id="dashboard">
+        <div>
+          <p class="eyebrow">Sistem Rental Kamera</p>
+          <h1>LensaKita</h1>
+        </div>
+        <button id="refreshDataBtn" class="primary-btn">Refresh Data</button>
+      </header>
+
+      <section class="stats-grid" id="dashboardStats"></section>
+
+      <section class="two-col-layout">
+        <div class="panel">
+          <div class="section-title-wrap">
+            <h3>Form Kamera</h3>
+          </div>
+          <form id="cameraForm" class="form-grid">
+            <input type="hidden" id="cameraId" />
+            <div class="form-group">
+              <label for="namaKamera">Nama Kamera</label>
+              <input type="text" id="namaKamera" placeholder="Contoh: Sony A7 III" required />
+            </div>
+            <div class="form-group">
+              <label for="merkKamera">Merk</label>
+              <input type="text" id="merkKamera" placeholder="Contoh: Sony" required />
+            </div>
+            <div class="form-group">
+              <label for="jenisKamera">Jenis</label>
+              <input type="text" id="jenisKamera" placeholder="Contoh: Mirrorless" required />
+            </div>
+            <div class="form-group">
+              <label for="hargaSewa">Harga Sewa / Hari</label>
+              <input type="number" id="hargaSewa" min="1000" placeholder="500000" required />
+            </div>
+            <div class="form-group full-width">
+              <label for="statusKamera">Status Kamera</label>
+              <select id="statusKamera">
+                <option value="Tersedia">Tersedia</option>
+                <option value="Disewa">Disewa</option>
+              </select>
+            </div>
+            <div class="button-row full-width">
+              <button type="submit" class="primary-btn">Simpan Kamera</button>
+              <button type="button" id="resetCameraForm" class="secondary-btn">Reset</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel">
+          <div class="section-title-wrap">
+            <h3>Form Pelanggan</h3>
+          </div>
+          <form id="customerForm" class="form-grid">
+            <input type="hidden" id="customerId" />
+            <div class="form-group">
+              <label for="namaPelanggan">Nama Pelanggan</label>
+              <input type="text" id="namaPelanggan" placeholder="Contoh: Rizky Putra" required />
+            </div>
+            <div class="form-group">
+              <label for="noTelepon">No. Telepon</label>
+              <input type="text" id="noTelepon" placeholder="0812xxxxxx" required />
+            </div>
+            <div class="form-group full-width">
+              <label for="alamatPelanggan">Alamat</label>
+              <textarea id="alamatPelanggan" rows="4" placeholder="Masukkan alamat lengkap" required></textarea>
+            </div>
+            <div class="button-row full-width">
+              <button type="submit" class="primary-btn">Simpan Pelanggan</button>
+              <button type="button" id="resetCustomerForm" class="secondary-btn">Reset</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="panel transaction-panel">
+        <div class="section-title-wrap">
+          <h3>Form Transaksi Sewa</h3>
+        </div>
+        <form id="transactionForm" class="form-grid">
+          <input type="hidden" id="transactionId" />
+          <div class="form-group">
+            <label for="transactionCamera">Kamera</label>
+            <select id="transactionCamera" required></select>
+          </div>
+          <div class="form-group">
+            <label for="transactionCustomer">Pelanggan</label>
+            <select id="transactionCustomer" required></select>
+          </div>
+          <div class="form-group">
+            <label for="tanggalSewa">Tanggal Sewa</label>
+            <input type="date" id="tanggalSewa" required />
+          </div>
+          <div class="form-group">
+            <label for="tanggalKembali">Tanggal Kembali</label>
+            <input type="date" id="tanggalKembali" required />
+          </div>
+          <div class="form-group">
+            <label for="transactionStatus">Status Transaksi</label>
+            <select id="transactionStatus">
+              <option value="Aktif">Aktif</option>
+              <option value="Selesai">Selesai</option>
+              <option value="Batal">Batal</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="hargaPerHariDisplay">Harga / Hari</label>
+            <input type="text" id="hargaPerHariDisplay" readonly />
+          </div>
+          <div class="summary-box full-width">
+            <div>
+              <span>Lama Sewa</span>
+              <strong id="lamaSewaDisplay">0 hari</strong>
+            </div>
+            <div>
+              <span>Total Pendapatan</span>
+              <strong id="totalPendapatanDisplay">Rp 0</strong>
+            </div>
+          </div>
+          <div class="button-row full-width">
+            <button type="submit" class="primary-btn">Simpan Transaksi</button>
+            <button type="button" id="resetTransactionForm" class="secondary-btn">Reset</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel" id="kamera">
+        <div class="section-title-wrap">
+          <h3>Tabel Kamera</h3>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nama</th>
+                <th>Merk</th>
+                <th>Jenis</th>
+                <th>Harga / Hari</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="kameraTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel" id="pelanggan">
+        <div class="section-title-wrap">
+          <h3>Tabel Pelanggan</h3>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nama</th>
+                <th>No. Telepon</th>
+                <th>Alamat</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="pelangganTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel" id="transaksi">
+        <div class="section-title-wrap">
+          <h3>Tabel Transaksi</h3>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Kamera</th>
+                <th>Pelanggan</th>
+                <th>Tgl. Sewa</th>
+                <th>Tgl. Kembali</th>
+                <th>Lama Sewa</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="transaksiTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+  </body>
+</html>
